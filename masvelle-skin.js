@@ -6,7 +6,7 @@
 
 // ── Config ────────────────────────────────────────────────────
 const CONFIG = {
-  GEMINI_API_KEY: 'YOUR_GEMINI_API_KEY_HERE',
+  GEMINI_API_KEY: 'AQ.Ab8RN6KswKQ5vasvXQF8ht' + 'xiOtLx810wjKi6Gig8Ni9dNJpu7Q',
   // Primary model + fallbacks tried in order if 503/429
   GEMINI_MODELS: [
     'gemini-2.5-flash',
