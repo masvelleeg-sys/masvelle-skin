@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Masvelle Skin AI - تحليل بشرتك بالذكاء الاصطناعي مع توصيات منتجات Masvelle المخصصة لك"/>
+  <meta name="keywords" content="Masvelle, تحليل البشرة, الذكاء الاصطناعي, العناية بالبشرة"/>
+  <title>Masvelle | محلل البشرة الذكي</title>
+  <link rel="icon" href="https://files.easy-orders.net/1780341803390642218.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="masvelle-skin.css"/>
+</head>
+<body>
+
+  <!-- ===== FLOATING TRIGGER BUTTON (embeds on Masvelle site) ===== -->
+  <div class="msv-float-trigger" id="msv-float-trigger" onclick="openWidget()" title="تحليل بشرتك مجاناً">
+    <div class="msv-float-pulse"></div>
+    <div class="msv-float-icon">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" stroke="#efce7d" stroke-width="2"/>
+        <circle cx="24" cy="19" r="7" fill="#efce7d"/>
+        <path d="M10 40c0-7.7 6.3-14 14-14s14 6.3 14 14" stroke="#efce7d" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="32" cy="14" r="6" fill="#DCA67A"/>
+        <path d="M29 14l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="msv-float-label">تحليل بشرتك</span>
+  </div>
+
+  <!-- ===== MAIN WIDGET MODAL ===== -->
+  <div class="msv-overlay" id="msv-overlay" onclick="closeWidgetOutside(event)">
+    <div class="msv-widget" id="msv-widget">
+
+      <!-- Widget Header -->
+      <div class="msv-header">
+        <div class="msv-header-brand">
+          <img src="https://files.easy-orders.net/1780222680514852987.png" alt="Masvelle" class="msv-logo" onerror="this.style.display='none';document.getElementById('msv-brand-text').style.display='block'"/>
+          <span class="msv-brand-text" id="msv-brand-text" style="display:none">Masvelle</span>
+          <div class="msv-header-title">
+            <span class="msv-title-main">محلل البشرة الذكي</span>
+            <span class="msv-title-sub">AI Skin Analyzer</span>
+          </div>
+        </div>
+        <div class="msv-header-actions">
+          <button class="msv-lang-btn" id="msv-lang-btn" onclick="toggleLang()" title="English">EN</button>
+          <button class="msv-close-btn" onclick="closeWidget()" aria-label="إغلاق">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Language Toggle Banner -->
+      <div class="msv-lang-banner" id="msv-lang-banner" style="display:none">
+        <span>🌍 Switched to English</span>
+        <button onclick="toggleLang()">العربية</button>
+      </div>
+
+      <!-- ===== SCREENS ===== -->
+
+      <!-- SCREEN 1: Welcome -->
+      <div class="msv-screen active" id="screen-welcome">
+        <div class="msv-welcome">
+          <div class="msv-welcome-visual">
+            <div class="msv-ai-circle">
+              <div class="msv-ai-ring r1"></div>
+              <div class="msv-ai-ring r2"></div>
+              <div class="msv-ai-ring r3"></div>
+              <div class="msv-ai-icon">
+                <svg viewBox="0 0 24 24" class="msv-icon" style="width:32px; height:32px; color:var(--msv-gold)" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v1m0 16v1M4 12H3m18 0h-1M6.3 6.3l.7.7m9.9 9.9l.7.7M6.3 17.7l.7-.7M17.7 6.3l-.7.7M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+              </div>
+            </div>
+          </div>
+          <h2 class="msv-welcome-title" data-ar="اكتشفي سر بشرتك" data-en="Discover Your Skin Secret">اكتشفي سر بشرتك</h2>
+          <p class="msv-welcome-desc" data-ar="تحليل ذكي وشخصي لبشرتك مع توصيات منتجات Masvelle المناسبة لك تماماً" data-en="Smart personalized skin analysis with tailored Masvelle product recommendations just for you">تحليل ذكي وشخصي لبشرتك مع توصيات منتجات Masvelle المناسبة لك تماماً</p>
+          <div class="msv-welcome-features">
+            <div class="msv-wf-item">
+              <span class="msv-wf-icon">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12M12 18v-4M9 10h6M12 6a3 3 0 1 0-3-3m3 3a3 3 0 1 1 3-3m-3 7v3"/></svg>
+              </span>
+              <span data-ar="14 عامل جلدي" data-en="14 Skin Factors">14 عامل جلدي</span>
+            </div>
+            <div class="msv-wf-item">
+              <span class="msv-wf-icon">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </span>
+              <span data-ar="30 ثانية فقط" data-en="30 Seconds Only">30 ثانية فقط</span>
+            </div>
+            <div class="msv-wf-item">
+              <span class="msv-wf-icon">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+              </span>
+              <span data-ar="منتجات مخصصة" data-en="Curated Products">منتجات مخصصة</span>
+            </div>
+          </div>
+          <div class="msv-input-group">
+            <label for="msv-user-name-input" data-ar="الاسم (اختياري):" data-en="Name (Optional):">الاسم (اختياري):</label>
+            <input type="text" id="msv-user-name-input" placeholder="مثال: سارة أحمد" data-ar="مثال: سارة أحمد" data-en="e.g. Sarah Ahmed"/>
+          </div>
+          <div class="msv-welcome-btns">
+            <button class="msv-btn msv-btn-primary" onclick="goToScreen('screen-capture')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <span data-ar="ابدئي التحليل" data-en="Start Analysis">ابدئي التحليل</span>
+            </button>
+            <button class="msv-btn msv-btn-secondary" onclick="goToScreen('screen-history')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span data-ar="سجل التحليلات" data-en="Analysis History">سجل التحليلات</span>
+            </button>
+          </div>
+          <p class="msv-privacy">
+            <svg viewBox="0 0 24 24" class="msv-icon" style="width:14px; height:14px; margin-left:4px; color:var(--msv-gold-dark);" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span data-ar="صورتك تُعالج محلياً ولا تُرسل لأي خادم" data-en="Your photo is processed locally and never sent to any server">صورتك تُعالج محلياً ولا تُرسل لأي خادم</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- SCREEN 2: Capture -->
+      <div class="msv-screen" id="screen-capture">
+        <div class="msv-capture">
+          <div class="msv-step-bar">
+            <div class="msv-step done" id="step-dot-1"><span>1</span></div>
+            <div class="msv-step-line"></div>
+            <div class="msv-step active" id="step-dot-2"><span>2</span></div>
+            <div class="msv-step-line"></div>
+            <div class="msv-step" id="step-dot-3"><span>3</span></div>
+          </div>
+
+          <div class="msv-tabs">
+            <button class="msv-tab active" id="tab-cam" onclick="switchCaptureTab('cam')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <span data-ar="كاميرا" data-en="Camera">كاميرا</span>
+            </button>
+            <button class="msv-tab" id="tab-upload" onclick="switchCaptureTab('upload')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span data-ar="رفع صورة" data-en="Upload Photo">رفع صورة</span>
+            </button>
+          </div>
+
+          <!-- Camera view -->
+          <div class="msv-cam-area" id="cam-area">
+            <div class="msv-cam-placeholder" id="cam-placeholder">
+              <div class="msv-cam-ph-icon">
+                <svg viewBox="0 0 24 24" style="width:40px; height:40px; stroke: currentColor; fill:none;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <p data-ar="تشغيل الكاميرا للتحليل" data-en="Start camera for analysis">تشغيل الكاميرا للتحليل</p>
+              <button class="msv-btn msv-btn-primary" onclick="startCamera()" id="start-cam-btn">
+                <span data-ar="تشغيل الكاميرا" data-en="Start Camera">تشغيل الكاميرا</span>
+              </button>
+            </div>
+            <video id="msv-video" autoplay playsinline style="display:none"></video>
+            <canvas id="msv-canvas" style="display:none"></canvas>
+            <div class="msv-cam-overlay" id="msv-cam-overlay" style="display:none">
+              <div class="msv-face-frame">
+                <div class="msv-frame-corner tl"></div>
+                <div class="msv-frame-corner tr"></div>
+                <div class="msv-frame-corner bl"></div>
+                <div class="msv-frame-corner br"></div>
+                <span data-ar="ضعي وجهك هنا" data-en="Place your face here">ضعي وجهك هنا</span>
+              </div>
+              <div class="msv-cam-ctrls">
+                <button class="msv-capture-btn" id="capture-photo-btn" onclick="capturePhoto()">
+                  <div class="msv-capture-inner"></div>
+                </button>
+                <button class="msv-stop-btn" onclick="stopCamera()">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload view -->
+          <div class="msv-upload-area" id="upload-area" style="display:none"
+               onclick="document.getElementById('msv-file').click()"
+               ondragover="event.preventDefault();this.classList.add('drag')"
+               ondrop="handleDrop(event)"
+               ondragleave="this.classList.remove('drag')">
+            <input type="file" id="msv-file" accept="image/*" style="display:none" onchange="handleFile(event)"/>
+            <div class="msv-upload-icon">
+              <svg viewBox="0 0 24 24" style="width:40px; height:40px; stroke: currentColor; fill:none;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <p data-ar="اسحبي الصورة هنا أو اضغطي للاختيار" data-en="Drag photo here or click to choose">اسحبي الصورة هنا أو اضغطي للاختيار</p>
+            <span class="msv-upload-hint">JPG · PNG · WEBP · حتى 10MB</span>
+          </div>
+
+          <!-- Captured preview -->
+          <div class="msv-preview" id="msv-preview" style="display:none">
+            <img id="msv-preview-img" alt="صورتك"/>
+            <div class="msv-preview-actions">
+              <button class="msv-btn msv-btn-ghost" onclick="resetCapture()" data-ar="تغيير الصورة" data-en="Change Photo">تغيير الصورة</button>
+              <button class="msv-btn msv-btn-primary" onclick="startAnalysis()" data-ar="تحليل الصورة ✨" data-en="Analyze Photo ✨">تحليل الصورة ✨</button>
+            </div>
+          </div>
+
+          <div class="msv-tips-row">
+            <span>
+              <svg viewBox="0 0 24 24" class="msv-icon" style="width:16px; height:16px; color:var(--msv-gold-dark);" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .4 2.5 1.5 3.5.7.8 1.3 1.5 1.5 2.5M9 18h6M10 22h4"/></svg>
+            </span>
+            <span data-ar="إضاءة جيدة · وجه واضح · بدون مكياج للحصول على أدق النتائج" data-en="Good lighting · Clear face · No makeup for best results">إضاءة جيدة · وجه واضح · بدون مكياج للحصول على أدق النتائج</span>
+          </div>
+
+          <div class="msv-screen-nav">
+            <button class="msv-btn msv-btn-ghost" onclick="goToScreen('screen-welcome')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span data-ar="رجوع" data-en="Back">رجوع</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 3: Analyzing -->
+      <div class="msv-screen" id="screen-analyzing">
+        <div class="msv-analyzing">
+          <div class="msv-analyzing-visual">
+            <img id="msv-analyze-img" alt="جاري التحليل" class="msv-analyze-photo"/>
+            <div class="msv-analyze-overlay">
+              <div class="msv-scan-bar"></div>
+              
+              <!-- Neon Laser Face Circle -->
+              <svg class="msv-laser-circle" id="msv-laser-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer rotating ring -->
+                <circle cx="100" cy="100" r="88" class="laser-ring-outer"/>
+                <!-- Main face ring -->
+                <circle cx="100" cy="100" r="78" class="laser-ring-main"/>
+                <!-- Inner pulse ring -->
+                <circle cx="100" cy="100" r="65" class="laser-ring-inner"/>
+                <!-- Rotating scanner arc -->
+                <circle cx="100" cy="100" r="78" class="laser-ring-scan"/>
+                <!-- Corner brackets -->
+                <path d="M30,100 L30,36 L94,36" class="laser-bracket"/>
+                <path d="M170,100 L170,36 L106,36" class="laser-bracket"/>
+                <path d="M30,100 L30,164 L94,164" class="laser-bracket"/>
+                <path d="M170,100 L170,164 L106,164" class="laser-bracket"/>
+                <!-- Cross hairs -->
+                <line x1="100" y1="12" x2="100" y2="32" class="laser-crosshair"/>
+                <line x1="100" y1="168" x2="100" y2="188" class="laser-crosshair"/>
+                <line x1="12" y1="100" x2="32" y2="100" class="laser-crosshair"/>
+                <line x1="168" y1="100" x2="188" y2="100" class="laser-crosshair"/>
+                <!-- Scan data labels -->
+                <text x="100" y="8" class="laser-label">SCANNING</text>
+                <text x="100" y="198" class="laser-label">AI ANALYSIS</text>
+              </svg>
+
+              <!-- Neon Face Scan Mesh Grid -->
+              <svg class="msv-neon-mesh" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Forehead scan -->
+                <path d="M10,20 L90,20" class="neon-line cyan neon-forehead" />
+                <!-- Eyes scan box -->
+                <rect x="18" y="30" width="24" height="12" rx="2" class="neon-box blue neon-eyes" />
+                <rect x="58" y="30" width="24" height="12" rx="2" class="neon-box blue neon-eyes" />
+                <!-- Nose scan polygon -->
+                <polygon points="50,28 38,55 62,55" class="neon-polygon gold neon-nose" />
+                <!-- Cheeks contours -->
+                <path d="M12,48 C22,62 32,52 44,52" class="neon-line purple neon-cheeks" />
+                <path d="M88,48 C78,62 68,52 56,52" class="neon-line purple neon-cheeks" />
+                <!-- Jawline contour -->
+                <path d="M18,60 L33,83 L50,88 L67,83 L82,60" class="neon-line cyan neon-jawline" />
+                <!-- Grid scanning markers -->
+                <line x1="0" y1="40" x2="100" y2="40" class="neon-grid-line" />
+                <line x1="0" y1="65" x2="100" y2="65" class="neon-grid-line" />
+                <line x1="0" y1="80" x2="100" y2="80" class="neon-grid-line" />
+              </svg>
+
+              <div class="msv-scan-dot" style="top:22%;left:28%"></div>
+              <div class="msv-scan-dot" style="top:22%;left:68%"></div>
+              <div class="msv-scan-dot" style="top:42%;left:18%"></div>
+              <div class="msv-scan-dot" style="top:42%;left:78%"></div>
+              <div class="msv-scan-dot" style="top:57%;left:48%"></div>
+              <div class="msv-scan-dot" style="top:68%;left:35%"></div>
+              <div class="msv-scan-dot" style="top:68%;left:62%"></div>
+            </div>
+
+          </div>
+          <div class="msv-analyze-info">
+            <h3 class="msv-analyze-title" data-ar="جارٍ تحليل بشرتك..." data-en="Analyzing your skin...">جارٍ تحليل بشرتك...</h3>
+            <div class="msv-steps-list" id="msv-steps-list">
+              <div class="msv-astep" id="astep-1"><div class="msv-astep-dot"></div><span data-ar="كشف ملامح الوجه" data-en="Detecting facial features">كشف ملامح الوجه</span></div>
+              <div class="msv-astep" id="astep-2"><div class="msv-astep-dot"></div><span data-ar="تحليل نسيج البشرة" data-en="Analyzing skin texture">تحليل نسيج البشرة</span></div>
+              <div class="msv-astep" id="astep-3"><div class="msv-astep-dot"></div><span data-ar="فحص 14 عاملاً جلدياً" data-en="Checking 14 skin factors">فحص 14 عاملاً جلدياً</span></div>
+              <div class="msv-astep" id="astep-4"><div class="msv-astep-dot"></div><span data-ar="توليد توصيات Masvelle" data-en="Generating Masvelle recommendations">توليد توصيات Masvelle</span></div>
+            </div>
+            <div class="msv-progress-wrap">
+              <div class="msv-progress-track"><div class="msv-progress-fill" id="msv-progress-fill"></div></div>
+              <span class="msv-progress-pct" id="msv-progress-pct">0%</span>
+            </div>
+            <p class="msv-analyze-note" id="msv-analyze-note">
+              <span data-ar="يُعالج محلياً على جهازك" data-en="Processed locally on your device">يُعالج محلياً على جهازك</span>
+              <svg viewBox="0 0 24 24" class="msv-icon" style="width:12px; height:12px; margin-right:4px; color:var(--msv-text-muted);" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 4: Results -->
+      <div class="msv-screen" id="screen-results">
+        <div class="msv-results">
+
+          <!-- Tabs -->
+          <div class="msv-result-tabs">
+            <button class="msv-rtab active" id="rtab-overview" onclick="switchResultTab('overview')">
+              <span data-ar="النتائج" data-en="Results">النتائج</span>
+            </button>
+            <button class="msv-rtab" id="rtab-chart" onclick="switchResultTab('chart')">
+              <span data-ar="الرسم البياني" data-en="Charts">الرسم البياني</span>
+            </button>
+            <button class="msv-rtab" id="rtab-products" onclick="switchResultTab('products')">
+              <span data-ar="المنتجات" data-en="Products">المنتجات</span>
+            </button>
+            <button class="msv-rtab" id="rtab-history" onclick="switchResultTab('history')">
+              <span data-ar="السجل" data-en="History">السجل</span>
+            </button>
+          </div>
+
+          <!-- OVERVIEW TAB -->
+          <div class="msv-rtab-panel active" id="panel-overview">
+            <!-- Score -->
+            <div class="msv-score-card">
+              <div class="msv-score-ring-wrap">
+                <svg class="msv-score-svg" viewBox="0 0 100 100">
+                  <defs>
+                    <linearGradient id="sgrd" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#efce7d"/>
+                      <stop offset="100%" stop-color="#DCA67A"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="msv-ring-bg" cx="50" cy="50" r="42"/>
+                  <circle class="msv-ring-fill" id="msv-ring-fill" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+                </svg>
+                <div class="msv-score-inner">
+                  <span class="msv-score-num" id="msv-score-num">0</span>
+                  <span class="msv-score-denom">/100</span>
+                </div>
+              </div>
+              <div class="msv-score-details">
+                <div class="msv-score-grade" id="msv-score-grade">—</div>
+                <div class="msv-score-desc" id="msv-score-desc">—</div>
+                <div class="msv-skin-type-row" id="msv-skin-type-row"></div>
+                <div class="msv-skin-age-box">
+                  <span data-ar="العمر الافتراضي للبشرة:" data-en="Skin Apparent Age:">العمر الافتراضي للبشرة:</span>
+                  <strong id="msv-skin-age-num">—</strong>
+                  <span data-ar="سنة" data-en="years">سنة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metrics -->
+            <div class="msv-metrics" id="msv-metrics"></div>
+
+            <!-- Action Row -->
+            <div class="msv-result-actions">
+              <button class="msv-btn msv-btn-primary msv-btn-sm" onclick="switchResultTab('products')">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+                <span data-ar="المنتجات المقترحة" data-en="Suggested Products">المنتجات المقترحة</span>
+              </button>
+              <button class="msv-btn msv-btn-ghost msv-btn-sm" onclick="saveSession()">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span data-ar="حفظ" data-en="Save">حفظ</span>
+              </button>
+              <button class="msv-btn msv-btn-ghost msv-btn-sm" onclick="shareResults()">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <span data-ar="مشاركة" data-en="Share">مشاركة</span>
+              </button>
+              <button class="msv-btn msv-btn-ghost msv-btn-sm" onclick="downloadPDFReport()">
+                <svg viewBox="0 0 24 24" class="msv-icon" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span data-ar="تقرير PDF" data-en="PDF Report">تقرير PDF</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CHART TAB -->
+          <div class="msv-rtab-panel" id="panel-chart">
+            <div class="msv-chart-section">
+              <h4 data-ar="مخطط البشرة الشبكي" data-en="Skin Radar Chart">مخطط البشرة الشبكي</h4>
+              <div class="msv-chart-wrap">
+                <canvas id="msv-radar-chart"></canvas>
+              </div>
+            </div>
+            <div class="msv-chart-section">
+              <h4 data-ar="مستوى كل عامل" data-en="Each Factor Level">مستوى كل عامل</h4>
+              <div class="msv-chart-wrap msv-chart-bar-wrap">
+                <canvas id="msv-bar-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRODUCTS TAB -->
+          <div class="msv-rtab-panel" id="panel-products">
+            <div class="msv-products-header">
+              <h4 data-ar="منتجات Masvelle الموصى بها لبشرتك" data-en="Masvelle Products Recommended for Your Skin">منتجات Masvelle الموصى بها لبشرتك</h4>
+              <p class="msv-products-sub" data-ar="مختارة خصيصاً بناءً على نتائج تحليلك" data-en="Specially selected based on your analysis results">مختارة خصيصاً بناءً على نتائج تحليلك</p>
+            </div>
+            <div class="msv-products-grid" id="msv-products-grid"></div>
+            <a href="https://masvelle.myeasyorders.com/" target="_blank" class="msv-shop-all-btn">
+              <span data-ar="تصفح كل منتجات Masvelle" data-en="Browse All Masvelle Products">تصفح كل منتجات Masvelle</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </a>
+          </div>
+
+          <!-- HISTORY TAB -->
+          <div class="msv-rtab-panel" id="panel-history">
+            <div class="msv-history-header">
+              <h4 data-ar="سجل تحليلاتك" data-en="Your Analysis History">سجل تحليلاتك</h4>
+              <button class="msv-btn msv-btn-ghost msv-btn-sm" onclick="clearHistory()" data-ar="مسح الكل" data-en="Clear All">مسح الكل</button>
+            </div>
+            <div class="msv-history-chart-container" id="msv-history-chart-container" style="display:none">
+              <h5 style="font-size:0.78rem; font-weight:700; color:var(--msv-text-sec); margin-top:8px; margin-bottom:8px;" data-ar="مخطط تتبع تطور صحة البشرة" data-en="Skin Health Progression Chart">مخطط تتبع تطور صحة البشرة</h5>
+              <div class="msv-chart-wrap" style="height:180px; padding:10px; margin-bottom:15px;">
+                <canvas id="msv-history-line-chart"></canvas>
+              </div>
+            </div>
+            <div id="msv-history-list"></div>
+          </div>
+
+          <!-- New Analysis Button -->
+          <button class="msv-new-analysis-btn" onclick="resetAll()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            <span data-ar="تحليل جديد" data-en="New Analysis">تحليل جديد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN 5: History (standalone) -->
+      <div class="msv-screen" id="screen-history">
+        <div class="msv-history-standalone">
+          <h3 data-ar="سجل تحليلاتك" data-en="Your Analysis History">سجل تحليلاتك</h3>
+          <div id="msv-history-standalone-list"></div>
+          <div class="msv-screen-nav">
+            <button class="msv-btn msv-btn-ghost" onclick="goToScreen('screen-welcome')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              <span data-ar="رجوع" data-en="Back">رجوع</span>
+            </button>
+            <button class="msv-btn msv-btn-primary" onclick="goToScreen('screen-capture')">
+              <span data-ar="تحليل جديد" data-en="New Analysis">تحليل جديد</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="msv-footer">
+        <span>Powered by <strong>Masvelle</strong> × AI</span>
+        <span><svg viewBox="0 0 24 24" class="msv-icon" style="width:12px; height:12px; margin-left:3px; color:var(--msv-gold-dark)" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> للأغراض التعليمية فقط</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="msv-toast" id="msv-toast"></div>
+
+  <script src="masvelle-skin.js"></script>
+</body>
+</html>
